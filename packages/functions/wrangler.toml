@@ -2,6 +2,9 @@ name = "chalak-functions"
 main = "src/index.ts"
 compatibility_date = "2025-09-25"
 
+# Account ID — use CF_ACCOUNT_ID env var in CI, or set here for local dev
+# account_id = "your-account-id"
+
 # ============================================
 # Environment
 # ============================================
