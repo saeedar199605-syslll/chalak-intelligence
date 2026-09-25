@@ -17,7 +17,7 @@ Awaiting first CI run on GitHub Actions for final validation.
 - [x] CI pipeline syntax valid (YAML validated, all jobs parse correctly)
 - [x] CI uses `npm ci` for reproducible builds
 - [x] CI uses `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build` (root scripts)
-- [~] CI pipeline passes on GitHub Actions (workflow pushed, awaiting run completion)
+- [~] CI pipeline passes on GitHub Actions (workflow pushed, awaiting run completion after wrangler.toml fix)
 
 ### Auth Functionality
 - [x] User can register (bootstrap admin creates first user)
@@ -67,15 +67,22 @@ Awaiting first CI run on GitHub Actions for final validation.
 - [x] CONTRIBUTING.md created
 - [x] Phase 1 convergence recorded (this file)
 
-### CI Fixes Applied (commit 6fba097)
-- Root cause: invalid `or:` key from `jpillora/install-api-action` made workflow unparseable
-- Removed unnecessary third-party action; Wrangler receives `CF_API_TOKEN` directly via `env`
-- Fixed production deploy branch: `refs/heads/main` → `refs/heads/master` (matches actual repo branch)
-- Added `github.event_name != 'pull_request'` guard to prevent PRs deploying to production
-- Replaced `npm install` with `npm ci` for reproducible CI builds
-- Build artifact uploaded/downloaded between build and deploy jobs (no redundant rebuild)
-- Added `permissions: contents: read` for least-privilege security
-- Added `CF_ACCOUNT_ID` to production deploy steps
+### CI Fixes Applied (commit 6fba097, 97c4e01)
+- **6fba097**: Root cause: invalid `or:` key from `jpillora/install-api-action` made workflow unparseable
+  - Removed unnecessary third-party action; Wrangler receives `CLOUDFLARE_API_TOKEN` directly via `env`
+  - Fixed production deploy branch: `refs/heads/main` → `refs/heads/master` (matches actual repo branch)
+  - Added `github.event_name != 'pull_request'` guard to prevent PRs deploying to production
+  - Replaced `npm install` with `npm ci` for reproducible CI builds
+  - Build artifact uploaded/downloaded between build and deploy jobs (no redundant rebuild)
+  - Added `permissions: contents: read` for least-privilege security
+  - Added `CF_ACCOUNT_ID` to production deploy steps
+- **97c4e01**: Fixed wrangler.toml config format for Wrangler 4.x
+  - `d1_databases`: array of inline tables (was `[[d1_database]]`)
+  - `r2_buckets`: array of inline tables (was `[[r2_buckets]]`)
+  - `durable_objects`: object with `bindings` array (was `[[durable_objects]]`)
+  - Added `[exports.CollabRoom]` type = `"durable-object"` for DO export
+  - CI deploy commands use `--env=""` to target default environment
+  - Verified: `npx wrangler deploy --dry-run` passes with 0 warnings
 
 ---
 
