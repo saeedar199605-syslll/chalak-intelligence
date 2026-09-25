@@ -1,0 +1,45 @@
+{
+  "name": "chalak-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "اصفهان چالاک — Organizational Intelligence Platform",
+  "workspaces": [
+    "packages/types",
+    "packages/web",
+    "packages/functions"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "dev:web": "vite --config packages/web/vite.config.ts",
+    "dev:functions": "wrangler dev --config packages/functions/wrangler.toml",
+    "typecheck": "tsc --build",
+    "typecheck:check": "tsc --build --force",
+    "lint": "eslint packages",
+    "lint:fix": "eslint packages --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:functions": "cd packages/functions && vitest run",
+    "test:web": "cd packages/web && vitest run",
+    "build": "tsc --build && vite build --config packages/web/vite.config.ts",
+    "build:web": "vite build --config packages/web/vite.config.ts",
+    "build:functions": "wrangler deploy --dry-run --config packages/functions/wrangler.toml",
+    "deploy": "npm run build && wrangler deploy --config packages/functions/wrangler.toml",
+    "migrate": "wrangler d1 execute chalak-intelligence-d1 --file migrations/001_initial_schema.sql --config packages/functions/wrangler.toml",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.70.1",
+    "@typescript-eslint/parser": "^8.70.1",
+    "prettier": "^3.7.4",
+    "turbo": "^2.11.4",
+    "typescript": "^5.9.2",
+    "vitest": "^5.0.1",
+    "wrangler": "^4.139.0"
+  },
+  "engines": {
+    "node": "^24.0.0"
+  }
+}

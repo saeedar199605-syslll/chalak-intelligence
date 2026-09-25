@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* Vazirmatn font — SIL OFL 2.1 licensed */
+@font-face {
+  font-family: 'Vazirmatn';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/rastikerdam/vazirmatn@master/Vazirmatn-Bold.woff2') format('woff2');
+}
+
+@theme {
+  --chalak-background: #fafafa;
+  --chalak-surface: #ffffff;
+  --chalak-surface-elevated: #f5f5f5;
+  --chalak-border: #e5e5e5;
+  --chalak-text-primary: #1a1a1a;
+  --chalak-text-secondary: #6b7280;
+  --chalak-text-tertiary: #9ca3af;
+  --chalak-primary: #2563eb;
+  --chalak-primary-hover: #1d4ed8;
+  --chalak-primary-active: #1e40af;
+  --chalak-primary-contrast: #ffffff;
+  --chalak-warning: #d97706;
+  --chalak-error: #dc2626;
+  --chalak-success: #16a34a;
+  --chalak-info: #0284c7;
+  --chalak-radius-sm: 0.375rem;
+  --chalak-radius-md: 0.5rem;
+  --chalak-radius-lg: 0.75rem;
+  --chalak-radius-xl: 1rem;
+  --chalak-shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --chalak-shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --chalak-shadow-dropdown: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Base styles */
+@layer base {
+  html[dir="rtl"] {
+    text-align: right;
+  }
+
+  body {
+    font-family: 'Vazirmatn', system-ui, sans-serif;
+    @apply bg-background text-text-primary antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Dark theme variables */
+[data-theme="dark"] {
+  --chalak-background: #0f0f0f;
+  --chalak-surface: #181818;
+  --chalak-surface-elevated: #222222;
+  --chalak-border: #333333;
+  --chalak-text-primary: #f5f5f5;
+  --chalak-text-secondary: #a3a3a3;
+  --chalak-text-tertiary: #737373;
+  --chalak-primary: #3b82f6;
+  --chalak-primary-hover: #60a5fa;
+  --chalak-primary-active: #93c5fd;
+  --chalak-primary-contrast: #0f0f0f;
+  --chalak-warning: #fb9233;
+  --chalak-error: #f87171;
+  --chalak-success: #4ade80;
+  --chalak-info: #38bdf8;
+}
+
+/* Dark theme via system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --chalak-background: #0f0f0f;
+    --chalak-surface: #181818;
+    --chalak-surface-elevated: #222222;
+    --chalak-border: #333333;
+    --chalak-text-primary: #f5f5f5;
+    --chalak-text-secondary: #a3a3a3;
+    --chalak-text-tertiary: #737373;
+    --chalak-primary: #3b82f6;
+    --chalak-primary-hover: #60a5fa;
+    --chalak-primary-active: #93c5fd;
+    --chalak-primary-contrast: #0f0f0f;
+    --chalak-warning: #fb9233;
+    --chalak-error: #f87171;
+    --chalak-success: #4ade80;
+    --chalak-info: #38bdf8;
+  }
+}
+
+/* Map design tokens to Tailwind class names */
+@layer components {
+  .bg-background { background-color: var(--chalak-background); }
+  .bg-surface { background-color: var(--chalak-surface); }
+  .bg-surface-elevated { background-color: var(--chalak-surface-elevated); }
+  .border-border { border-color: var(--chalak-border); }
+  .text-text-primary { color: var(--chalak-text-primary); }
+  .text-text-secondary { color: var(--chalak-text-secondary); }
+  .text-text-tertiary { color: var(--chalak-text-tertiary); }
+  .bg-primary { background-color: var(--chalak-primary); }
+  .bg-primary-hover { background-color: var(--chalak-primary-hover); }
+  .text-primary { color: var(--chalak-primary); }
+  .text-primary-hover { color: var(--chalak-primary-hover); }
+  .text-primary-contrast { color: var(--chalak-primary-contrast); }
+  .bg-error { background-color: var(--chalak-error); }
+  .text-error { color: var(--chalak-error); }
+  .shadow-elevated { box-shadow: var(--chalak-shadow-elevated); }
+  .shadow-subtle { box-shadow: var(--chalak-shadow-subtle); }
+  .rounded-lg { border-radius: var(--chalak-radius-lg); }
+  .rounded-xl { border-radius: var(--chalak-radius-xl); }
+  .rounded-md { border-radius: var(--chalak-radius-md); }
+}
+
+/* RTL helpers */
+html[dir="rtl"] .rtl\:text-left { text-align: right; }
+html[dir="rtl"] .rtl\:text-right { text-align: left; }
+html[dir="rtl"] .rtl\:ml-0 { margin-right: 0; margin-left: auto; }
+html[dir="rtl"] .rtl\:mr-0 { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .rtl\:pl-0 { padding-right: 0; padding-left: auto; }
+html[dir="rtl"] .rtl\:pr-0 { padding-left: 0; padding-right: auto; }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

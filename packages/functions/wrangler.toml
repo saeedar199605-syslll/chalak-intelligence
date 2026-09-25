@@ -1,0 +1,42 @@
+name = "chalak-functions"
+main = "src/index.ts"
+compatibility_date = "2025-09-25"
+
+# ============================================
+# Environment
+# ============================================
+
+[vars]
+ENVIRONMENT = "development"
+FRONTEND_URL = "http://localhost:5173"
+
+[env.production]
+vars = { ENVIRONMENT = "production", FRONTEND_URL = "https://chalak-intelligence.pages.dev" }
+
+# ============================================
+# D1 Database
+# ============================================
+[[d1_database]]
+binding = "DB"
+database_name = "chalak-intelligence-d1"
+database_id = "local"
+
+# ============================================
+# R2 Bucket (for file storage)
+# ============================================
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "chalak-intelligence-r2"
+
+# ============================================
+# Durable Objects (for real-time collaboration)
+# ============================================
+[[durable_objects]]
+name = "COLLAB"
+class_name = "CollabRoom"
+
+# ============================================
+# Triggers
+# ============================================
+[triggers]
+crons = ["0 * * * *"]

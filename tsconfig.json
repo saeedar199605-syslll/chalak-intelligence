@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2024/schema",
+  "files": [],
+  "references": [
+    { "path": "./packages/types" },
+    { "path": "./packages/functions" },
+    { "path": "./packages/web" }
+  ]
+}
