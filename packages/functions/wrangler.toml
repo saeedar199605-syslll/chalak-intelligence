@@ -19,27 +19,35 @@ vars = { ENVIRONMENT = "production", FRONTEND_URL = "https://chalak-intelligence
 # ============================================
 # D1 Database
 # ============================================
-[[d1_database]]
-binding = "DB"
-database_name = "chalak-intelligence-d1"
-database_id = "local"
+
+d1_databases = [
+  { binding = "DB", database_name = "chalak-intelligence-d1", database_id = "local" }
+]
 
 # ============================================
 # R2 Bucket (for file storage)
 # ============================================
-[[r2_buckets]]
-binding = "R2"
-bucket_name = "chalak-intelligence-r2"
+
+r2_buckets = [
+  { binding = "R2", bucket_name = "chalak-intelligence-r2" }
+]
 
 # ============================================
 # Durable Objects (for real-time collaboration)
 # ============================================
-[[durable_objects]]
-name = "COLLAB"
-class_name = "CollabRoom"
+
+[durable_objects]
+bindings = [
+  { name = "COLLAB", class_name = "CollabRoom" }
+]
+
+[exports.CollabRoom]
+type = "durable-object"
+storage = "sqlite"
 
 # ============================================
 # Triggers
 # ============================================
+
 [triggers]
 crons = ["0 * * * *"]

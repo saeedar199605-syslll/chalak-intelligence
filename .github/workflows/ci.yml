@@ -91,7 +91,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Deploy Worker preview (dry-run)
-        run: npx wrangler deploy --config packages/functions/wrangler.toml --dry-run
+        run: npx wrangler deploy --config packages/functions/wrangler.toml --dry-run --env=""
 
   deploy-production:
     name: Deploy Production
@@ -111,12 +111,12 @@ jobs:
           name: web-dist
           path: packages/web/dist/
       - name: Deploy Worker
-        run: npx wrangler deploy --config packages/functions/wrangler.toml
+        run: npx wrangler deploy --config packages/functions/wrangler.toml --env=""
         env:
-          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
       - name: Deploy Frontend
         run: npx wrangler pages deploy packages/web/dist --project-name=chalak-intelligence-web
         env:
-          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
