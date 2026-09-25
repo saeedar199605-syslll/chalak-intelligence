@@ -2,7 +2,7 @@ name = "chalak-functions"
 main = "src/index.ts"
 compatibility_date = "2025-09-25"
 
-# Account ID — use CF_ACCOUNT_ID env var in CI, or set here for local dev
+# Account ID — use CLOUDFLARE_ACCOUNT_ID env var in CI/production
 # account_id = "your-account-id"
 
 # ============================================
@@ -13,11 +13,11 @@ compatibility_date = "2025-09-25"
 ENVIRONMENT = "development"
 FRONTEND_URL = "http://localhost:5173"
 
-[env.production]
-vars = { ENVIRONMENT = "production", FRONTEND_URL = "https://chalak-intelligence.pages.dev" }
-
 # ============================================
 # D1 Database
+# For production, provision a D1 database:
+#   npx wrangler d1 create chalak-intelligence-d1
+# Then replace database_id with the real UUID.
 # ============================================
 
 d1_databases = [
@@ -34,6 +34,9 @@ r2_buckets = [
 
 # ============================================
 # Durable Objects (for real-time collaboration)
+# CollabRoom is a scaffold — full real-time collab
+# arrives in Phase 2. The class is exported and
+# declared here so the DO namespace is provisioned.
 # ============================================
 
 [durable_objects]

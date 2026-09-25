@@ -78,9 +78,23 @@ jobs:
           name: web-dist
           path: packages/web/dist/
 
+  validate-cloudflare-config:
+    name: Validate Cloudflare Config
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - name: Validate Wrangler configuration
+        run: npx wrangler deploy --config packages/functions/wrangler.toml --dry-run --temporary
+
   deploy-preview:
     name: Deploy Preview
-    needs: build
+    needs: [validate-cloudflare-config]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -91,11 +105,11 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Deploy Worker preview (dry-run)
-        run: npx wrangler deploy --config packages/functions/wrangler.toml --dry-run --env=""
+        run: npx wrangler deploy --config packages/functions/wrangler.toml --dry-run --temporary
 
   deploy-production:
     name: Deploy Production
-    needs: build
+    needs: [validate-cloudflare-config]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
     steps:
@@ -111,12 +125,12 @@ jobs:
           name: web-dist
           path: packages/web/dist/
       - name: Deploy Worker
-        run: npx wrangler deploy --config packages/functions/wrangler.toml --env=""
+        run: npx wrangler deploy --config packages/functions/wrangler.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - name: Deploy Frontend
         run: npx wrangler pages deploy packages/web/dist --project-name=chalak-intelligence-web
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

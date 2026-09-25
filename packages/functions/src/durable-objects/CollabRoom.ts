@@ -1,12 +1,20 @@
 /**
  * Durable Object for real-time collaboration.
  * Uses the WebSocket Hibernation API for efficient connection handling.
+ *
+ * NOTE: This is a scaffold implementation. Full real-time collaboration
+ * (WebSocket broadcast, presence, operational transforms) is deferred to
+ * Phase 2. The class extends DurableObject so the namespace can be
+ * provisioned via wrangler [exports] without runtime errors.
  */
 
 import type { Env } from '../types.js';
+import { DurableObject } from 'cloudflare:workers';
 
-export class CollabRoom {
-  constructor(_state: DurableObjectState, _env: Env) {}
+export class CollabRoom extends DurableObject<Env> {
+  constructor(ctx: DurableObjectState, env: Env) {
+    super(ctx, env);
+  }
 
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -30,9 +38,10 @@ export class CollabRoom {
   }
 
   private handleWebSocket(): Response {
-    // WebSocket handling in Durable Objects requires the Hibernation API
-    // The actual WebSocket is available via request.cf?.hibernationWebSocket
-    // For this scaffold, we return a placeholder response
+    // WebSocket handling in Durable Objects requires the Hibernation API.
+    // The actual WebSocket is available via this.ctx.acceptWebSocket(request).
+    // For this scaffold, we return a placeholder response.
+    // Full implementation: accept WebSocket, manage connections, broadcast.
     return new Response('WebSocket endpoint', { status: 101 });
   }
 }
